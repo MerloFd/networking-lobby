@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #08090c;
+  --color-surface: #12141b;
+  --color-raised: #1b1f29;
+  --color-line: #272c38;
+  --color-fg: #eef1f6;
+  --color-muted: #8d95a6;
+  --color-accent: #5b8cff;
+  --color-accent-2: #a668ff;
+  --color-accent-soft: #1d2647;
+  --color-good: #34d99b;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* Alvos de toque nunca abaixo de 44px; 16px evita o zoom automático do iOS */
+input, select, textarea, button { font-size: 16px; }
+
+::selection { background: var(--color-accent); color: #fff; }
+
+/* Brilho de fundo no topo. Dá profundidade sem custar requisição. */
+.aurora::before {
+  content: "";
+  position: fixed;
+  inset: -20% -20% auto -20%;
+  height: 46vh;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(48% 62% at 22% 0%, color-mix(in oklab, var(--color-accent) 30%, transparent), transparent 70%),
+    radial-gradient(42% 56% at 82% 4%, color-mix(in oklab, var(--color-accent-2) 24%, transparent), transparent 70%);
+  filter: blur(18px);
+  opacity: 0.55;
+}
+
+.ink-grad {
+  background: linear-gradient(96deg, var(--color-fg) 12%, var(--color-accent) 62%, var(--color-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes pop { from { transform: scale(.94); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+.pop { animation: pop .2s cubic-bezier(.2,.9,.3,1.3) both }
+
+@keyframes rise { from { transform: translateY(9px); opacity: 0 } to { transform: none; opacity: 1 } }
+.rise { animation: rise .34s cubic-bezier(.2,.8,.3,1) both }
+
+@keyframes ring { 0% { transform: scale(.8); opacity: .7 } 100% { transform: scale(2.1); opacity: 0 } }
+.ring { animation: ring 1.6s ease-out infinite }
+
+@keyframes shimmer { to { background-position: 200% 0 } }
+.shimmer {
+  background: linear-gradient(90deg, var(--color-good), #7ef2c4, var(--color-good));
+  background-size: 200% 100%;
+  animation: shimmer 2.2s linear infinite;
+}
+
+@keyframes breathe { 50% { opacity: .55 } }
+.breathe { animation: breathe 2.4s ease-in-out infinite }
+
+.press { transition: transform .1s ease }
+.press:active { transform: scale(.97) }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important }
+}

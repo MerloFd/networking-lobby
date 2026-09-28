@@ -1,0 +1,4 @@
+.pglite/
+node_modules/
+.next/
+.env*.local
